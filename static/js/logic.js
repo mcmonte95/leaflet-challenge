@@ -5,20 +5,6 @@ d3.json(url).then(function (data) {
     console.log(data.features[0]);
   });
 
-/**************************************
- * SECTION: Create Base Map
- **************************************/
-
-// create base map object
-let myMap = L.map("map", {
-  center: [37.0902, -95.7129],
-  zoom: 5
-});
-
-// Adding a tile layer to our map using Open Street Map:
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(myMap);
 
 /**************************************
  * SECTION: Format points for GeoJson
@@ -110,10 +96,21 @@ function createLegend(map) {
 
 
 
-
 /**************************************
- * SECTION: Add GeoJSON layer
+ * SECTION: Build Map
  **************************************/
+
+// create base map object
+let myMap = L.map("map", {
+    center: [37.0902, -95.7129],
+    zoom: 5
+  });
+  
+// Adding a tile layer to our map using Open Street Map:
+ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(myMap);
+  
 
 // Load GeoJSON data and add it to the map
 d3.json(url).then(function(data) {
