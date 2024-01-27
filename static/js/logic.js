@@ -21,6 +21,10 @@ function getMarkerColor(value) {
                          'green'; // Any value -10 or lower gets green
 }
 
+// Define helper function to round to 4 decimal points
+function roundToFourDecimals(num) {
+    return parseFloat(num.toFixed(4));
+}
 
 // Define helper function for marker style
 function circleMarkerStyle(feature){
@@ -43,15 +47,31 @@ function circleMarkerStyle(feature){
 };
 
 // Define function to return formatted map layer
-function formatPoints(geoJSONdata){
-    
+function formatPoints(geoJSONdata) {
     return L.geoJSON(geoJSONdata, {
         pointToLayer: function (feature, latlng) {
             return L.circleMarker(latlng, circleMarkerStyle(feature));
+        },
+        onEachFeature: function (feature, layer) {
+            // Check if the feature has the necessary properties
+            if (feature.properties && feature.properties.mag && feature.geometry.coordinates && feature.properties.title) {
+                // Format popup content
+                let popupContent = `
+                    <div>
+                        <h3 style="margin: 0; color: #007bff;">${feature.properties.title}</h3>
+                        <div style="font-size: 0.9em; margin-top: 5px;">
+                            <strong>Location:</strong> ${roundToFourDecimals(feature.geometry.coordinates[1])}, ${roundToFourDecimals(feature.geometry.coordinates[0])}<br>
+                            <strong>Magnitude:</strong> ${feature.properties.mag}<br>
+                            <strong>Depth:</strong> ${feature.geometry.coordinates[2]}
+                        </div>
+                    </div>
+                `;
+                
+                // Bind the formatted content to the popup
+                layer.bindPopup(popupContent);
+            }
         }
     });
-
-
 };
 
 
