@@ -44,8 +44,7 @@ function circleMarkerStyle(feature){
 
 // Define function to return formatted map layer
 function formatPoints(geoJSONdata){
-   
-  
+    
     return L.geoJSON(geoJSONdata, {
         pointToLayer: function (feature, latlng) {
             return L.circleMarker(latlng, circleMarkerStyle(feature));
@@ -93,7 +92,6 @@ function createLegend(map) {
     // Return the legend control
     return legend;
 }
-
 
 
 /**************************************
